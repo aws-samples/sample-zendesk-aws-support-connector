@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": [
+            "arn:aws:iam::${account_id}:role/${lambda_role_name_1}",
+            "arn:aws:iam::${account_id}:role/${lambda_role_name_2}"
+          ]
+        },
+        "Action": [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:Query",
+          "dynamodb:Scan"
+        ],
+        "Resource": "${lookup_table_arn}"
+      }
+    ]
+  }
+  

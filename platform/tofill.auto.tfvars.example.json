@@ -1,0 +1,11 @@
+{
+  "region": "<region>",
+  "zendesk_subdomain": "<your_subdomain>",
+  "zendesk_admin_email": "<your_admin_email>",
+  "zendesk_token": "<your_api_key>",
+  "bearer_token": "<your_token>",
+  "default_tags": {
+    "Project": "zendesk-aws-support",
+    "Environment": "production"
+  }
+}

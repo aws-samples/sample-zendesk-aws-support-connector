@@ -1,0 +1,15 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "events:DescribeRule",
+          "events:PutEvents",
+          "events:GetEventBus"
+        ],
+        "Resource": "${default_bus_arn}"
+      }
+    ]
+  }
+  
