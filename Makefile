@@ -9,7 +9,20 @@ PLATFORM_DIR = platform
 SCRIPTS_DIR = scripts
 PYTHON_DEPS = boto3 aws_xray_sdk
 
-install:
+validate_token:
+	@echo "🔍 Validating bearer token..."
+	@TOKEN=$$(jq -r '.bearer_token' $(PLATFORM_DIR)/tofill.auto.tfvars.json); \
+	if [ -z "$$TOKEN" ]; then \
+		echo "❌ bearer_token is missing."; \
+		exit 1; \
+	elif [ "$${#TOKEN}" -lt 30 ]; then \
+		echo "❌ bearer_token is too short (must be at least 15 characters)."; \
+		exit 1; \
+	else \
+		echo "✅ bearer_token looks valid."; \
+	fi
+
+install: 
 	@echo "🔍 Checking for Python 3.13..."
 	@command -v python3.13 >/dev/null 2>&1 || (echo "❌ Python 3.13 is not installed. Please install it first." && exit 1)
 	@echo "🐍 Python 3.13 found."
@@ -19,9 +32,9 @@ install:
 	@echo "✅ Dependencies installed."
 
 
-all: install zendesk_oauth zip deploy zendesk_setup
+all: install zendesk_oauth zip init deploy zendesk_setup
 
-init: 
+init: validate_token
 	cd $(PLATFORM_DIR) && terraform init
 
 
