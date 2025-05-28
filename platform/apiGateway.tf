@@ -70,6 +70,9 @@ resource "aws_apigatewayv2_stage" "webhook_stage" {
   name        = "production"
   auto_deploy = true
   description = "stage1"
+  default_route_settings {
+    throttling_rate_limit  = 1000
+  }
 }
 
 
