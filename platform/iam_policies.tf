@@ -1,3 +1,4 @@
+
 resource "aws_iam_policy" "logging_tracing_policy" {
   name        = "logging_tracing_policy"
   description = "Policy for logging_tracing XRAY"
@@ -32,7 +33,7 @@ resource "aws_iam_policy" "webhook_bus_access_policy" {
   name        = "webhook_bus_access_policy"
   description = "Policy for webhook event bus access"
   policy = templatefile("${path.module}/policies/webhook_bus_access_policy.tpl.json", {
-    webhook_bus_arn = aws_cloudwatch_event_bus.webhook_event_bus.arn
+    webhook_bus_arn = data.aws_cloudwatch_event_bus.default.arn
   })
 }
 

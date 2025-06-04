@@ -1,3 +1,4 @@
+
 resource "aws_iam_role" "lambda_support_case_role" {
   name = "lambda_support_case_role"
 
@@ -67,7 +68,7 @@ resource "aws_lambda_function" "support_case_monitor_lambda" {
   }
   environment {
     variables = {
-      EVENT_BUS_ARN       = aws_cloudwatch_event_bus.webhook_event_bus.arn
+      EVENT_BUS_ARN       = data.aws_cloudwatch_event_bus.default.arn
       ZENDESK_SUBDOMAIN   = var.zendesk_subdomain
       ZENDESK_ADMIN_EMAIL = var.zendesk_admin_email
       TABLE_NAME          = aws_dynamodb_table.idlookup.name

@@ -1,12 +1,11 @@
-resource "aws_cloudwatch_event_bus" "webhook_event_bus" {
-  name = "zendesk_event_bus"
+data "aws_cloudwatch_event_bus" "default" {
+  name = "default"
 }
-
 # EventBridge Rule pour déclencher la Lambda
 resource "aws_cloudwatch_event_rule" "event_listener_rule" {
   name           = "event_listener_rule"
   description    = "Déclenche la Lambda lorsqu'un événement arrive dans EventBridge"
-  event_bus_name = aws_cloudwatch_event_bus.webhook_event_bus.name
+  event_bus_name = data.aws_cloudwatch_event_bus.default.name
 
   event_pattern = <<EOF
 {
@@ -29,7 +28,7 @@ resource "aws_cloudwatch_event_target" "event_listener_target" {
   rule           = aws_cloudwatch_event_rule.event_listener_rule.name
   target_id      = "event-listener"
   arn            = aws_lambda_function.event_listener_lambda.arn
-  event_bus_name = aws_cloudwatch_event_bus.webhook_event_bus.name
+  event_bus_name = data.aws_cloudwatch_event_bus.default.name
 }
 
 # EventBridge Rule to trigger Lambda on AWS Support Case events

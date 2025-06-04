@@ -1,3 +1,4 @@
+
 data "aws_caller_identity" "current" {}
 
 resource "aws_iam_role" "lambda_event_listener_role" {
@@ -68,7 +69,7 @@ resource "aws_lambda_function" "event_listener_lambda" {
   }
   environment {
     variables = {
-      EVENT_BUS_ARN = aws_cloudwatch_event_bus.webhook_event_bus.arn
+      EVENT_BUS_ARN = data.aws_cloudwatch_event_bus.default.arn
       TABLE_NAME    = aws_dynamodb_table.idlookup.name
     }
   }

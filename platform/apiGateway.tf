@@ -8,7 +8,7 @@ resource "aws_apigatewayv2_integration" "eventbridge_integration_create" {
   integration_type    = "AWS_PROXY"
   integration_subtype = "EventBridge-PutEvents"
   request_parameters = {
-    EventBusName = aws_cloudwatch_event_bus.webhook_event_bus.name
+    EventBusName = data.aws_cloudwatch_event_bus.default.name
     Detail       = "$request.body"
     DetailType   = "create.webhook"
     Source       = "zendesk.webhook"
@@ -21,7 +21,7 @@ resource "aws_apigatewayv2_integration" "eventbridge_integration_solved" {
   integration_type    = "AWS_PROXY"
   integration_subtype = "EventBridge-PutEvents"
   request_parameters = {
-    EventBusName = aws_cloudwatch_event_bus.webhook_event_bus.name
+    EventBusName = data.aws_cloudwatch_event_bus.default.name
     Detail       = "$request.body"
     DetailType   = "solved.webhook"
     Source       = "zendesk.webhook"
@@ -34,7 +34,7 @@ resource "aws_apigatewayv2_integration" "eventbridge_integration_update" {
   integration_type    = "AWS_PROXY"
   integration_subtype = "EventBridge-PutEvents"
   request_parameters = {
-    EventBusName = aws_cloudwatch_event_bus.webhook_event_bus.name
+    EventBusName = data.aws_cloudwatch_event_bus.default.name
     Detail       = "$request.body"
     DetailType   = "update.webhook"
     Source       = "zendesk.webhook"
@@ -71,19 +71,11 @@ resource "aws_apigatewayv2_stage" "webhook_stage" {
   auto_deploy = true
   description = "stage1"
   default_route_settings {
-    throttling_rate_limit  = 1000
+    throttling_rate_limit  = 100
+    throttling_burst_limit = 50
   }
 }
 
-
-resource "aws_cloudwatch_log_group" "apigwlg" {
-  name              = "/aws/apigateway/webhook"
-  retention_in_days = 365
-  kms_key_id        = aws_kms_key.dynamo.arn
-  tags = {
-    Name = "zendesk-webhook-logs"
-  }
-}
 
 
 resource "aws_iam_role" "apigateway_eventbridge_role" {
@@ -105,6 +97,8 @@ resource "aws_iam_role" "apigateway_eventbridge_role" {
 EOF
 }
 
+
+
 resource "aws_iam_policy" "apigateway_eventbridge_policy" {
   name        = "apigateway_eventbridge_policy"
   description = "Allow API Gateway to send events to EventBridge"
@@ -118,7 +112,7 @@ resource "aws_iam_policy" "apigateway_eventbridge_policy" {
       "Action": [
         "events:PutEvents"
       ],
-      "Resource": "${aws_cloudwatch_event_bus.webhook_event_bus.arn}"
+      "Resource": "${data.aws_cloudwatch_event_bus.default.arn}"
     }
   ]
 }
