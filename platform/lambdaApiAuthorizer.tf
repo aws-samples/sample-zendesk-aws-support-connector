@@ -28,7 +28,7 @@ resource "aws_apigatewayv2_authorizer" "hmac_auth" {
   authorizer_type                   = "REQUEST"
   authorizer_payload_format_version = "2.0"
   authorizer_uri                    = aws_lambda_function.authorizer.invoke_arn
-  identity_sources                  = ["$request.header.X-Zendesk-Webhook-Signature", "$request.header.X-Zendesk-Webhook-Signature-Timestamp", "$request.header.Authorization"]
+  identity_sources                  = ["$request.header.Authorization"]
   enable_simple_responses           = true
 }
 
