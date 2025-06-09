@@ -15,7 +15,7 @@ validate_token:
 	if [ -z "$$TOKEN" ]; then \
 		echo "❌ bearer_token is missing."; \
 		exit 1; \
-	elif [ "$${#TOKEN}" -lt 30 ]; then \
+	elif [ "$${#TOKEN}" -lt 15 ]; then \
 		echo "❌ bearer_token is too short (must be at least 15 characters)."; \
 		exit 1; \
 	else \
