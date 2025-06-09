@@ -79,7 +79,7 @@ class ZendeskConfigurator:
             try:
                 self.logger.debug("Getting Credentials from AWS Secrets Manager.")
                 self.api_token = get_secret("zendesk_api_key", region)
-                self.bearer_token = get_secret("api_key", region)
+                self.bearer_token = get_secret("zendesk_api_gateway_key", region)
                 self.logger.debug("Credentials gathered successfully.")
             except Exception as e:
                 self.logger.error(f"Failed to retrieve credentials from Secrets Manager: {e}")

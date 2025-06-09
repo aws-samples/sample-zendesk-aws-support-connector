@@ -49,14 +49,14 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution_listener" {
 
 # Groupe de logs pour la Lambda
 resource "aws_cloudwatch_log_group" "lambda_log_group_listener" {
-  name              = "/aws/lambda/ZendeskToAws"
+  name              = "/aws/lambda/zendesk_to_aws"
   retention_in_days = 365
   kms_key_id        = aws_kms_key.dynamo.arn
 }
 
 # Définition de la Lambda
 resource "aws_lambda_function" "event_listener_lambda" {
-  function_name                  = "ZendeskToAws"
+  function_name                  = "zendesk_to_aws"
   role                           = aws_iam_role.lambda_event_listener_role.arn
   runtime                        = "python3.13"
   handler                        = "handler.lambda_handler"

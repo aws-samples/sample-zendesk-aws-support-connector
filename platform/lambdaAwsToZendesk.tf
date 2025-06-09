@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "lambda_support_case_role" {
-  name = "lambda_support_case_role"
+  name = "zendesk_lambda_support_case_role"
 
   assume_role_policy = <<EOF
 {
@@ -48,14 +48,14 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_exec" {
 
 # CloudWatch log group for Lambda
 resource "aws_cloudwatch_log_group" "lambda_support_case_log" {
-  name              = "/aws/lambda/AwsToZendesk"
+  name              = "/aws/lambda/aws_to_zendesk"
   retention_in_days = 365
   kms_key_id        = aws_kms_key.dynamo.arn
 }
 
 # Lambda Function
 resource "aws_lambda_function" "support_case_monitor_lambda" {
-  function_name                  = "AwsToZendesk"
+  function_name                  = "aws_to_zendesk"
   role                           = aws_iam_role.lambda_support_case_role.arn
   runtime                        = "python3.13"
   handler                        = "handler.lambda_handler"

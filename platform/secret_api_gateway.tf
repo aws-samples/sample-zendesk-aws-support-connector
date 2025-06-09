@@ -1,7 +1,7 @@
 
 resource "aws_secretsmanager_secret" "api_key" {
-  name                    = "api_key"
-  description             = "API gateway API key"
+  name                    = "zendesk_api_gateway_key"
+  description             = "Zendesk - API gateway API Key."
   kms_key_id              = aws_kms_key.dynamo.arn
   recovery_window_in_days = 0
 }

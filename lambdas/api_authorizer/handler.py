@@ -2,7 +2,7 @@ from shared.logger import get_logger
 from shared.secrets import get_secret
 
 logger = get_logger()
-API_TOKEN = get_secret("api_key")
+API_TOKEN = get_secret("zendesk_api_gateway_key")
 
 def lambda_handler(event, context):
     try:

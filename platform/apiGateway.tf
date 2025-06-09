@@ -79,7 +79,7 @@ resource "aws_apigatewayv2_stage" "webhook_stage" {
 
 
 resource "aws_iam_role" "apigateway_eventbridge_role" {
-  name = "apigateway_eventbridge_role"
+  name = "zendesk_apigateway_eventbridge_role"
 
   assume_role_policy = <<EOF
 {
@@ -100,7 +100,7 @@ EOF
 
 
 resource "aws_iam_policy" "apigateway_eventbridge_policy" {
-  name        = "apigateway_eventbridge_policy"
+  name        = "zendesk_apigateway_eventbridge_policy"
   description = "Allow API Gateway to send events to EventBridge"
 
   policy = <<EOF

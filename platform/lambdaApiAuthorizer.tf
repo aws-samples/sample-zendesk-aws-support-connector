@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "authorizer" {
-  function_name                  = "ApiAuthorizer"
+  function_name                  = "zendesk_api_authorizer"
   role                           = aws_iam_role.lambda_authorizer_role.arn
   runtime                        = "python3.13"
   handler                        = "handler.lambda_handler"
@@ -24,7 +24,7 @@ resource "aws_lambda_function" "authorizer" {
 
 resource "aws_apigatewayv2_authorizer" "hmac_auth" {
   api_id                            = aws_apigatewayv2_api.webhook_api.id
-  name                              = "ApiAuthorizer"
+  name                              = "zendesk_api_authorizer"
   authorizer_type                   = "REQUEST"
   authorizer_payload_format_version = "2.0"
   authorizer_uri                    = aws_lambda_function.authorizer.invoke_arn
@@ -33,7 +33,7 @@ resource "aws_apigatewayv2_authorizer" "hmac_auth" {
 }
 
 resource "aws_cloudwatch_log_group" "lambda_authorizer_log" {
-  name              = "/aws/lambda/ApiAuthorizer"
+  name              = "/aws/lambda/zendesk_api_authorizer"
   retention_in_days = 365
   kms_key_id        = aws_kms_key.dynamo.arn
 }
@@ -41,7 +41,7 @@ resource "aws_cloudwatch_log_group" "lambda_authorizer_log" {
 
 // Lambda authorizer role 
 resource "aws_iam_role" "lambda_authorizer_role" {
-  name = "lambda_authorizer_role"
+  name = "zendesk_lambda_authorizer_role"
 
   assume_role_policy = <<EOF
 {
