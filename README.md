@@ -96,6 +96,7 @@ cp platform/tofill.auto.tfvars.example.json platform/tofill.auto.tfvars.json
 make install
 make zendesk_oauth
 make zip
+make init
 make deploy
 ```
 
