@@ -1,4 +1,3 @@
-
 ## zendesk-aws-support-conector
 
 
@@ -19,7 +18,38 @@ The zendesk-aws-support-conector project seamlessly integrates Zendesk with AWS,
 Before getting started with zendesk-aws-support-conector, ensure your runtime environment meets the following requirements:
 
 - **Programming Languages:** Terraform & Python 3
+- **AWS Support Plan:** Business, Enterprise On-Ramp, or Enterprise Support plan (required for AWS Support API access)
+- **Zendesk Account:** With administrator access
 
+## Project Structure
+
+Below is the directory structure of the project:
+
+```
+.
+├── assets                          # Images and other assets
+├── lambdas                         # AWS Lambda functions
+│   ├── api_authorizer              # API Gateway authorizer Lambda
+│   ├── aws_to_zendesk              # Lambda for AWS → Zendesk integration
+│   ├── shared                      # Shared code used across Lambda functions
+│   └── zendesk_to_aws              # Lambda for Zendesk → AWS integration
+├── platform                        # Terraform infrastructure code
+│   ├── modules                     # Terraform modules
+│   │   ├── api                     # API Gateway resources
+│   │   ├── events                  # EventBridge resources
+│   │   ├── lambda                  # Lambda functions resources
+│   │   ├── queues                  # SQS queues resources
+│   │   ├── security                # Security resources (KMS, Secrets Manager)
+│   │   └── storage                 # Storage resources (DynamoDB)
+│   └── policies                    # IAM policies templates
+├── scripts                         # Utility scripts
+│   ├── verify_token_security.py    # Token security validation
+│   ├── zendesk_configuration.py    # Zendesk setup script
+│   └── zendesk_oauth_config.py     # Zendesk OAuth configuration
+├── Makefile                        # Build and deployment automation
+├── requirements.txt                # Python dependencies
+└── README.md                       # Project documentation
+```
 
 ### Terraform deployment
 
