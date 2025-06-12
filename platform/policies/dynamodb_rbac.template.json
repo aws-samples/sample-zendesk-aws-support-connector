@@ -5,8 +5,9 @@
         "Effect": "Allow",
         "Principal": {
           "AWS": [
-            "arn:aws:iam::${account_id}:role/${lambda_role_name_1}",
-            "arn:aws:iam::${account_id}:role/${lambda_role_name_2}"
+            %{ for role_name in role_names ~}
+            "arn:aws:iam::${account_id}:role/${role_name}"%{ if index(role_names, role_name) < length(role_names) - 1 },%{ endif }
+            %{ endfor ~}
           ]
         },
         "Action": [
@@ -21,4 +22,3 @@
       }
     ]
   }
-  

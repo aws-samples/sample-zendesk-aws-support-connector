@@ -3,6 +3,17 @@ resource "aws_apigatewayv2_api" "webhook_api" {
   protocol_type = "HTTP"
 }
 
+# APIGW v2 Authorizer
+resource "aws_apigatewayv2_authorizer" "hmac_auth" {
+  api_id                            = aws_apigatewayv2_api.webhook_api.id
+  name                              = "zendesk_authorizer"
+  authorizer_type                   = "REQUEST"
+  authorizer_payload_format_version = "2.0"
+  authorizer_uri                    = var.lambda_authorizer_invoke_arn
+  identity_sources                  = ["$request.header.Authorization"]
+  enable_simple_responses           = true
+}
+
 resource "aws_apigatewayv2_integration" "eventbridge_integration_create" {
   api_id              = aws_apigatewayv2_api.webhook_api.id
   integration_type    = "AWS_PROXY"
@@ -69,69 +80,9 @@ resource "aws_apigatewayv2_stage" "webhook_stage" {
   api_id      = aws_apigatewayv2_api.webhook_api.id
   name        = "production"
   auto_deploy = true
-  description = "stage1"
+  description = "Zendesk Webhook - Production Stage"
   default_route_settings {
     throttling_rate_limit  = 100
     throttling_burst_limit = 50
   }
-}
-
-
-
-resource "aws_iam_role" "apigateway_eventbridge_role" {
-  name = "zendesk_apigateway_eventbridge_role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "apigateway.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
-
-
-
-resource "aws_iam_policy" "apigateway_eventbridge_policy" {
-  name        = "zendesk_apigateway_eventbridge_policy"
-  description = "Allow API Gateway to send events to EventBridge"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "events:PutEvents"
-      ],
-      "Resource": "${data.aws_cloudwatch_event_bus.default.arn}"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_lambda_permission" "api_gateway_invoke_auth" {
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.authorizer.function_name
-  principal     = "apigateway.amazonaws.com"
-
-  source_arn = "${aws_apigatewayv2_api.webhook_api.execution_arn}/*"
-}
-
-resource "aws_iam_role_policy_attachment" "apigateway_eventbridge_attach" {
-  role       = aws_iam_role.apigateway_eventbridge_role.name
-  policy_arn = aws_iam_policy.apigateway_eventbridge_policy.arn
-}
-
-output "api_gateway_url" {
-  value = aws_apigatewayv2_stage.webhook_stage.invoke_url
 }

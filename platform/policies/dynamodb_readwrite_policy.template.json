@@ -17,7 +17,7 @@
           "dynamodb:Update*",
           "dynamodb:PutItem"
         ],
-        "Resource": "${lookup_table_arn}"
+        "Resource": "${table_arn}"
       }
     ]
   }

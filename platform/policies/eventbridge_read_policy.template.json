@@ -8,7 +8,7 @@
           "events:PutEvents",
           "events:GetEventBus"
         ],
-        "Resource": "${default_bus_arn}"
+        "Resource": "${event_bus_arn}"
       }
     ]
   }

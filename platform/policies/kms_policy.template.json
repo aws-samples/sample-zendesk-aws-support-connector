@@ -1,0 +1,94 @@
+{
+  "Version": "2012-10-17",
+  "Id": "key-default-1",
+  "Statement": [
+    {
+      "Sid": "AllowRootAccount",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${account_id}:root"
+      },
+      "Action": "kms:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowDynamoDBToUseKey",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "dynamodb.amazonaws.com"
+      },
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowSQSToUseKey",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "sqs.amazonaws.com"
+      },
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowSMToUseKey",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "secretsmanager.amazonaws.com"
+      },
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowCWToUseKey",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "logs.${region}.amazonaws.com"
+      },
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowAccessToKMS",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          %{ for role_name in role_names ~}
+          "arn:aws:iam::${account_id}:role/${role_name}"%{ if index(role_names, role_name) < length(role_names) - 1 },%{ endif }
+          %{ endfor ~}
+        ]
+      },
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
