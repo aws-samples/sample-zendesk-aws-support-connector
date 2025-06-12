@@ -9,6 +9,18 @@ PLATFORM_DIR = platform
 SCRIPTS_DIR = scripts
 PYTHON_DEPS = boto3 aws_xray_sdk
 
+generate_token:
+	@echo "🔐 Checking bearer token..."
+	@TOKEN=$$(jq -r '.bearer_token' $(PLATFORM_DIR)/tofill.auto.tfvars.json 2>/dev/null || echo ""); \
+	if [ -z "$$TOKEN" ]; then \
+		echo "🔑 No token found. Generating secure bearer token..."; \
+		python3.13 $(SCRIPTS_DIR)/generate_secure_token.py \
+			--length 48 \
+			--config-file $(PLATFORM_DIR)/tofill.auto.tfvars.json; \
+	else \
+		echo "✅ Bearer token already exists. Skipping generation."; \
+	fi
+
 validate_token:
 	@echo "🔍 Validating bearer token..."
 	@python3.13 $(SCRIPTS_DIR)/verify_token_security.py \
@@ -28,7 +40,7 @@ install:
 
 all: install zendesk_oauth zip init deploy zendesk_setup
 
-init: validate_token
+init: generate_token validate_token
 	cd $(PLATFORM_DIR) && terraform init
 
 
