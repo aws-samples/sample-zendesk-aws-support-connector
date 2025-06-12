@@ -649,7 +649,7 @@ def main():
     args = parser.parse_args()
 
     # Init logger
-    logger = get_logger(log_level=args.log_level)
+    logger = get_logger(os.path.basename(__file__), log_level=args.log_level)
 
     # Load configuration from file if specified
     config = {}

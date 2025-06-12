@@ -11,16 +11,10 @@ PYTHON_DEPS = boto3 aws_xray_sdk
 
 validate_token:
 	@echo "🔍 Validating bearer token..."
-	@TOKEN=$$(jq -r '.bearer_token' $(PLATFORM_DIR)/tofill.auto.tfvars.json); \
-	if [ -z "$$TOKEN" ]; then \
-		echo "❌ bearer_token is missing."; \
-		exit 1; \
-	elif [ "$${#TOKEN}" -lt 15 ]; then \
-		echo "❌ bearer_token is too short (must be at least 15 characters)."; \
-		exit 1; \
-	else \
-		echo "✅ bearer_token looks valid."; \
-	fi
+	@python3.13 $(SCRIPTS_DIR)/verify_token_security.py \
+		--config-file $(PLATFORM_DIR)/tofill.auto.tfvars.json \
+		--exit-on-fail \
+		--min-length 15
 
 install: 
 	@echo "🔍 Checking for Python 3.13..."
