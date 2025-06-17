@@ -84,5 +84,21 @@ resource "aws_apigatewayv2_stage" "webhook_stage" {
   default_route_settings {
     throttling_rate_limit  = 100
     throttling_burst_limit = 50
+    logging_level = "INFO"
+    detailed_metrics_enabled = true
+    data_trace_enabled = true
+  }
+access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_access_logs.arn
+    format = jsonencode({
+      requestId       = "$context.requestId"
+      sourceIp        = "$context.identity.sourceIp"
+      requestTime     = "$context.requestTime"
+      httpMethod      = "$context.httpMethod"
+      routeKey        = "$context.routeKey"
+      status          = "$context.status"
+      protocol        = "$context.protocol"
+      responseLength  = "$context.responseLength"
+    })
   }
 }
