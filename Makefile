@@ -87,7 +87,7 @@ zendesk_oauth:
 
 zendesk_setup:
 	@echo "🚀 Deploying Zendesk configuration..."
-	$(eval API_GATEWAY_URL := $(shell cd $(PLATFORM_DIR) && terraform output -raw api_gateway_url))
+	$(eval API_GATEWAY_URL := $(shell cd $(PLATFORM_DIR) && terraform output api_gateway_url))
 	python3.13 $(SCRIPTS_DIR)/zendesk_configuration.py \
 		--api-gateway-url $(API_GATEWAY_URL) \
 		--config-file $(PLATFORM_DIR)/tofill.auto.tfvars.json \
