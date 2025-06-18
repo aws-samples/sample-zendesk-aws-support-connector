@@ -122,7 +122,7 @@ pip3 install requests boto3
 make zendesk_setup
 ```
 
-3. **Access the created form through the browser using the output URL from last step:**
+3. **Access the created form through the browser using the output URL from last step: (make sure your end-users can access your help-center)**
 ```
 https://<domain>.zendesk.com/hc/requests/new?ticket_form_id=<form_id>
 ```
