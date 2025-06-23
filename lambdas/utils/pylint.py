@@ -1,15 +1,9 @@
-""" This script shows pylint for all Lambda Functions with ZipFile code in yaml
-
-"""
+""" This script runs pylint and bandit for all lambda.py files in /lambdas directory """
 import os
 import glob
 import subprocess
 
-import cfn_tools # pip install cfn-flip
-
-
-FOLDER_PATH = '../'
-TMP_DIR  = '.tmp'
+FOLDER_PATH = '..'  # Remonte d'un niveau depuis /lambdas/utils/
 PYLINT_DISABLE = [
     'C0301', # Line too long
     'C0103', # Invalid name of module
@@ -54,31 +48,22 @@ def tab(text, indent="\t"):
     return '\n'.join([indent + line for line in text.splitlines()])
 
 def main():
-    """ run pylint for all lambda functions """
-    file_list = glob.glob(os.path.join(FOLDER_PATH, "*.yaml"))
-    file_list.sort(key=os.path.getmtime, reverse=True)
+    """ run pylint and bandit for all lambda.py files """
+    # Recherche tous les fichiers lambda.py dans les sous-dossiers de /lambdas
+    file_list = glob.glob(os.path.join(FOLDER_PATH, "*/lambda.py"))
+    file_list.sort()
+    
+    if not file_list:
+        print("No lambda.py files found in /lambdas subdirectories")
+        return
+
+    print("Analyzing Lambda files:")
     for filename in file_list:
-        try:
-            with open(filename, encoding='utf-8') as template_file:
-                template = cfn_tools.load_yaml(template_file.read())
-        except Exception:
-            print(f'failed to load {filename}')
-            continue
-        for name, res in template['Resources'].items():
-            if isinstance(res, dict) and res['Type'] == 'AWS::Lambda::Function':
-                code = res.get('Properties', {}).get('Code', {}).get('ZipFile')
-                if not code:
-                    continue
-                code_dir =  TMP_DIR + '/' + os.path.basename(filename).rsplit('.', 1)[0] + "/" + name + '/'
-                os.makedirs(code_dir, exist_ok=True)
-
-                py_fn = code_dir + '/code.py'
-                with open(py_fn, 'w', encoding='utf-8') as py_f:
-                    py_f.write(code)
-                print(filename, name)
-                print(tab(pylint(py_fn)))
-                print(tab(bandit(py_fn)))
-
+        print(f"\nAnalyzing: {filename}")
+        print("Pylint results:")
+        print(tab(pylint(filename)))
+        print("Bandit results:")
+        print(tab(bandit(filename)))
 
 if __name__ == '__main__':
     main()
