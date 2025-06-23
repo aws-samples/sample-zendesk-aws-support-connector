@@ -27,4 +27,4 @@ jobs:
           pip install cfn-flip pylint urllib3 boto3 bandit
       - name: Pylint all
         run: |
-          python utils/pylint.py
+          python lambdas/utils/pylint.py
