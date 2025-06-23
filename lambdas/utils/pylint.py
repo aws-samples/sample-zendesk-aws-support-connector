@@ -3,7 +3,7 @@ import os
 import glob
 import subprocess
 
-FOLDER_PATH = '..'  
+FOLDER_PATH = '/'  
 PYLINT_DISABLE = [
     'C0301', # Line too long
     'C0103', # Invalid name of module
