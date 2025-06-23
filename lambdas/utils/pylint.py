@@ -1,9 +1,9 @@
-""" This script runs pylint and bandit for all lambda.py files in /lambdas directory """
+""" This script runs pylint and bandit for all .py files in /lambdas directory """
 import os
 import glob
 import subprocess
 
-FOLDER_PATH = '..'  # Remonte d'un niveau depuis /lambdas/utils/
+FOLDER_PATH = '..'  
 PYLINT_DISABLE = [
     'C0301', # Line too long
     'C0103', # Invalid name of module
@@ -48,16 +48,16 @@ def tab(text, indent="\t"):
     return '\n'.join([indent + line for line in text.splitlines()])
 
 def main():
-    """ run pylint and bandit for all lambda.py files """
-    # Recherche tous les fichiers lambda.py dans les sous-dossiers de /lambdas
-    file_list = glob.glob(os.path.join(FOLDER_PATH, "*/lambda.py"))
+    """ run pylint and bandit for all python files """
+    file_list = glob.glob(os.path.join(FOLDER_PATH, "*/*.py"))
+    file_list = [f for f in file_list if 'utils' not in f]
     file_list.sort()
     
     if not file_list:
-        print("No lambda.py files found in /lambdas subdirectories")
+        print("No Python files found in /lambdas subdirectories")
         return
 
-    print("Analyzing Lambda files:")
+    print("Analyzing Python files:")
     for filename in file_list:
         print(f"\nAnalyzing: {filename}")
         print("Pylint results:")
