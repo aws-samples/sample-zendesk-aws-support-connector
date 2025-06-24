@@ -3,7 +3,7 @@
 
 ### Project Description
  
-The zendesk-aws-support-connector project seamlessly integrates Zendesk with AWS, automating customer support workflows and enhancing case management. By leveraging serverless architecture, it ensures efficient synchronization between support tickets and AWS events, providing robust, secure, and scalable solutions. Ideal for organizations looking to streamline their customer service operations and maintain high responsiveness in cloud environments.
+The zendesk-aws-support-connector project integrates Zendesk with AWS, automating customer support workflows and improving case management. This serverless architecture synchronizes support tickets with AWS events, delivering robust, secure, and scalable solutions. Organizations use this connector to streamline customer service operations and maintain responsiveness in cloud environments.
 
 ---
 
@@ -15,7 +15,7 @@ The zendesk-aws-support-connector project seamlessly integrates Zendesk with AWS
 
 ### Prerequisites
 
-Before getting started with zendesk-aws-support-connector, ensure your runtime environment meets the following requirements:
+Before using zendesk-aws-support-connector, verify your runtime environment meets these requirements:
 
 - **Programming Languages:** Terraform & Python 3
 - **AWS Support Plan:** Business, Enterprise On-Ramp, or Enterprise Support plan (required for AWS Support API access)
@@ -24,7 +24,7 @@ Before getting started with zendesk-aws-support-connector, ensure your runtime e
 
 ## Project Structure
 
-Below is the directory structure of the project:
+The project follows this directory structure:
 
 ```
 .
@@ -54,7 +54,7 @@ Below is the directory structure of the project:
 
 ### Terraform deployment
 
-Install zendesk-aws-support-connector using the following methods:
+Install zendesk-aws-support-connector using these methods:
 
 1. **Clone the zendesk-aws-support-connector repository**
 
@@ -109,7 +109,7 @@ make all
 
 ### Zendesk configuration
 
-1. **Enable Zendesk Help Center, as explained in this [Zendesk guide](https://support.zendesk.com/hc/en-us/articles/5702269234330-Enabling-and-activating-your-help-center) - make sure only authorized users can acces your form.**
+1. **Enable Zendesk Help Center, as explained in this [Zendesk guide](https://support.zendesk.com/hc/en-us/articles/5702269234330-Enabling-and-activating-your-help-center) - verify only authorized users can access your form.**
 
 2. **Install Python dependencies for Zendesk script execution:**
 
@@ -123,7 +123,7 @@ pip3 install requests boto3
 make zendesk_setup
 ```
 
-3. **Access the created form through the browser using the output URL from last step: (make sure your end-users can access your help-center)**
+3. **Access the created form through the browser using the output URL from last step: (verify your end-users can access your help-center)**
 ```
 https://<domain>.zendesk.com/hc/requests/new?ticket_form_id=<form_id>
 ```
@@ -134,4 +134,4 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 
 ## License
 
-This library is licensed under the MIT-0 License. See the LICENSE file.
+This library uses the MIT-0 License. See the LICENSE file.
