@@ -8,7 +8,7 @@ The zendesk-aws-support-conector project seamlessly integrates Zendesk with AWS,
 ---
 
 ### Project Architecture 
-![architecture diagramm](assets/zendeskarch.jpeg)
+![architecture diagramm](assets/zendeskarch.jpg)
 ![xray trace](assets/zendesk-to-aws-trace.png)
 
 ## Getting Started
@@ -20,6 +20,7 @@ Before getting started with zendesk-aws-support-conector, ensure your runtime en
 - **Programming Languages:** Terraform & Python 3
 - **AWS Support Plan:** Business, Enterprise On-Ramp, or Enterprise Support plan (required for AWS Support API access)
 - **Zendesk Account:** With administrator access
+- **AWS Region:** AWS Support is a global service. To receive updates for your support cases, you can use one of the following regions: US East (N. Virginia) Region, US West (Oregon) Region or Europe (Ireland) Region.
 
 ## Project Structure
 
@@ -108,7 +109,7 @@ make all
 
 ### Zendesk configuration
 
-1. **Enable Zendesk Help Center, as explained in this [Zendesk guide](https://support.zendesk.com/hc/en-us/articles/5702269234330-Enabling-and-activating-your-help-center).**
+1. **Enable Zendesk Help Center, as explained in this [Zendesk guide](https://support.zendesk.com/hc/en-us/articles/5702269234330-Enabling-and-activating-your-help-center) - make sure only authorized users can acces your form.**
 
 2. **Install Python dependencies for Zendesk script execution:**
 
