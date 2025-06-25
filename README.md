@@ -128,6 +128,13 @@ make zendesk_setup
 https://<domain>.zendesk.com/hc/requests/new?ticket_form_id=<form_id>
 ```
 
+### Clean up
+
+```sh
+make delete
+make zendesk_delete
+```
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
