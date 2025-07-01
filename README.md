@@ -133,7 +133,7 @@ make zendesk_setup
 ```
 https://<domain>.zendesk.com/hc/requests/new?ticket_form_id=<form_id>
 ```
-s
+
 ### Testing the Deployment
 
 After deploying the solution, you can test if it's working correctly by creating and resolving a test support case using the following curl commands:
