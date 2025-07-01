@@ -33,6 +33,7 @@ The project follows this directory structure:
 │   ├── api_authorizer              # API Gateway authorizer Lambda
 │   ├── aws_to_zendesk              # Lambda for AWS → Zendesk integration
 │   ├── shared                      # Shared code used across Lambda functions
+│   ├── utils                       # Utility functions
 │   └── zendesk_to_aws              # Lambda for Zendesk → AWS integration
 ├── platform                        # Terraform infrastructure code
 │   ├── modules                     # Terraform modules
@@ -44,6 +45,7 @@ The project follows this directory structure:
 │   │   └── storage                 # Storage resources (DynamoDB)
 │   └── policies                    # IAM policies templates
 ├── scripts                         # Utility scripts
+│   ├── generate_secure_token.py    # Script to generate secure API tokens
 │   ├── verify_token_security.py    # Token security validation
 │   ├── zendesk_configuration.py    # Zendesk setup script
 │   └── zendesk_oauth_config.py     # Zendesk OAuth configuration
